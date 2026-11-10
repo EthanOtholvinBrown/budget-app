@@ -2,29 +2,26 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Budget</title>
 <meta name="theme-color" content="#1a73e8">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <style>
   html, body { margin: 0; height: 100%; background: #fff; font-family: system-ui, sans-serif; }
-  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
-  #help { position: fixed; left: 12px; right: 12px; bottom: 16px; padding: 12px 14px; border-radius: 12px; background: #202124; color: #fff;
-          font-size: 14px; display: flex; gap: 10px; align-items: center; justify-content: space-between; transition: opacity .3s; }
-  #help a { color: #8ab4f8; font-weight: 600; text-decoration: none; white-space: nowrap; }
-  #help.gone { opacity: 0; pointer-events: none; }
+  main { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #5f6368; }
+  a { background: #1a73e8; color: #fff; padding: 12px 22px; border-radius: 22px; text-decoration: none; font-weight: 600; }
 </style>
 </head>
 <body>
-<iframe id="app" src="https://script.google.com/macros/s/AKfycbwzbf1cLKnaGDJ3gyrM8Jx-fodWzxCvTE5AWc10D1ke80seRZHBCnm4L3d9LpMugnx4/exec" title="Budget" allow="clipboard-write"></iframe>
-<div id="help"><span>Loading your budget…</span><a href="https://script.google.com/macros/s/AKfycbwzbf1cLKnaGDJ3gyrM8Jx-fodWzxCvTE5AWc10D1ke80seRZHBCnm4L3d9LpMugnx4/exec">Not loading? Open it</a></div>
+<main><div id="msg">Opening your budget…</div><a href="https://script.google.com/macros/s/AKfycbwzbf1cLKnaGDJ3gyrM8Jx-fodWzxCvTE5AWc10D1ke80seRZHBCnm4L3d9LpMugnx4/exec">Open Budget</a></main>
 <script>
-  // Hide the help bar once the budget app has loaded.
-  document.getElementById('app').addEventListener('load', function () {
-    setTimeout(function () { document.getElementById('help').classList.add('gone'); }, 4000);
-  });
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+  // Installed app: go straight to the budget (it runs on Google, signed in as you).
+  // In a normal Chrome tab: stay here so you can install it (Chrome menu > Install app / Add to home screen).
+  var installed = matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: minimal-ui)').matches;
+  if (!installed) document.getElementById('msg').innerHTML = 'To install: Chrome menu <b>&#8942;</b> &rarr; <b>Add to home screen</b> &rarr; <b>Install</b>';
+  else setTimeout(function () { location.replace('https://script.google.com/macros/s/AKfycbwzbf1cLKnaGDJ3gyrM8Jx-fodWzxCvTE5AWc10D1ke80seRZHBCnm4L3d9LpMugnx4/exec'); }, 300);
 </script>
 </body>
 </html>
